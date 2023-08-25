@@ -1,6 +1,21 @@
 <script setup>
+import { ref, onBeforeMount } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+
+const projects = ref([])
+
+onBeforeMount(() => {
+    fetch("api/projects")
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        projects.value = data;
+    })
+    .catch(console.error);
+})
+
 </script>
 
 <template>
@@ -14,7 +29,18 @@ import { Head } from '@inertiajs/vue3';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+                    <div class="p-6 text-gray-900">
+                    <table v-for="project in projects">
+                        <tr>
+                        <td>{{project.id}}</td>
+                        <td>
+                            <Link href="href">
+                            {{project.project_name}}
+                            </Link>
+                        </td>
+                        </tr>
+                    </table>
+                    </div>
                 </div>
             </div>
         </div>
