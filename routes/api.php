@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth')->group(function () {
     Route::get('/projects', [QbProjectController::class, 'getProjects']);
+    Route::post('/projects', [QbProjectController::class, 'createProject'])->name('post.projects');;
 });
