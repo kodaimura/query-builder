@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboadController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QbProjectController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboadController::class, 'show'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 });
 
 Route::middleware('auth')->group(function () {

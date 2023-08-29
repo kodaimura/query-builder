@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class DashboadController extends Controller
+class DashboardController extends Controller
 {
     public function show(Request $request): Response
     {
