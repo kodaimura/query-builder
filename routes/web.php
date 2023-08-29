@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware('auth')->group(function () {
     //Route::get('/projects', [QbProjectController::class, 'getProjects']);
     Route::post('/projects', [QbProjectController::class, 'createProject'])->name('post.projects');
+    Route::get('/projects/{project_id}/home', [QbProjectController::class, 'projectHome'])->name('get.projectHome');
 });
 
 Route::middleware('auth')->group(function () {

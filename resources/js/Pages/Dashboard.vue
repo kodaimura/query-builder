@@ -30,7 +30,7 @@ defineProps({
                         <tr>
                         <td>{{project.id}}</td>
                         <td>
-                            <Link href="href">
+                            <Link :href="route('get.projectHome', {'project_id': project.id})">
                             {{project.project_name}}
                             </Link>
                         </td>
