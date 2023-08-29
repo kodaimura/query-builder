@@ -1,21 +1,13 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ProjectForm from './Partials/ProjectForm.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
-const projects = ref([])
-
-onBeforeMount(() => {
-    fetch('api/projects')
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        projects.value = data;
-    })
-    .catch(console.error);
-})
+defineProps({
+    projects: {
+        type: Array,
+    },
+});
 </script>
 
 <template>

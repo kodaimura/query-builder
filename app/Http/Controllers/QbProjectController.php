@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\QbProject;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class QbProjectController extends Controller
         return response()->json($projects);
     }
 
-    public function createProject(Request $request): JsonResponse
+    public function createProject(Request $request): RedirectResponse
     {
         $user_id = $request->user()->id;
         $project_name = $request->project_name;
@@ -26,7 +28,7 @@ class QbProjectController extends Controller
             'user_id' => $user_id,
             'project_name' => $project_name,
         ]);
-        return response()->json($project);
+        return Redirect::route('dashboard');
     }
 
     public function updateProject(Request $request, string $id)
