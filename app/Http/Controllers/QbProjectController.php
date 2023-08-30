@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QbProject;
+use App\Models\QbTable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
@@ -40,8 +41,13 @@ class QbProjectController extends Controller
         $project = QbProject::where('user_id', $user_id)
                     ->where('id', $project_id)
                     ->get();
+        
+        $tables = QbTable::where('project_id', $project_id)
+                    ->get();
+                    
         return Inertia::render('ProjectHome', [
             'project' => $project[0],
+            'tables' => $tables,
         ]);
     }
 

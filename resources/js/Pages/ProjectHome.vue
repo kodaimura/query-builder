@@ -1,10 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     project: {
         type: Object,
+    },
+    tables: {
+        type: Array,
     },
 });
 </script>
@@ -24,6 +27,15 @@ defineProps({
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
+                        <table v-for="table in tables">
+                        <tr>
+                        <td>
+                            <Link :href="route('get.projectHome', {'project_id': project.id})">
+                            {{table.table_name}}
+                            </Link>
+                        </td>
+                        </tr>
+                    </table>
                     </div>
                 </div>
 
