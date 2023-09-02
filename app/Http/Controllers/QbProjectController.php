@@ -44,10 +44,19 @@ class QbProjectController extends Controller
         
         $tables = QbTable::where('project_id', $project_id)
                     ->get();
-                    
+
         return Inertia::render('ProjectHome', [
             'project' => $project[0],
             'tables' => $tables,
+        ]);
+    }
+
+    public function uploadDdl(Request $request, $project_id): RedirectResponse
+    {
+        $file_name = substr(str_shuffle('ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789'), 0, 18) . '.ddl';
+        $request->file('ddlfile')->storeAs('public/',$file_name);
+        return Redirect::route('get.projectHome', [
+            'project_id' => $project_id,
         ]);
     }
 
