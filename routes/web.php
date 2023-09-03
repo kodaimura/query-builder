@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QbProjectController;
 use App\Http\Controllers\QbProjectDashboardController;
 use App\Http\Controllers\QbTableSchemaController;
+use App\Http\Controllers\QbTableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/projects', [QbProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project_id}', [QbProjectDashboardController::class, 'show'])->name('projectDashboard');
     Route::post('/projects/{project_id}/ddl', [QbTableSchemaController::class, 'uploadDdl'])->name('uploadDdl');
+    //Route::get('/projects/{project_id}/tables/create', [QbTableController::class, 'create'])->name('tables.create');
+    Route::post('/projects/{project_id}/tables', [QbTableController::class, 'store'])->name('tables.store');
 });
 
 Route::middleware('auth')->group(function () {
