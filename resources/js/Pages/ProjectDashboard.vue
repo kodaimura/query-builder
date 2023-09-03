@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="ProjectHome" />
+    <Head title="ProjectDashboard" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -32,7 +32,7 @@ defineProps({
                         <table v-for="table in tables">
                         <tr>
                         <td>
-                            <Link :href="route('get.projectHome', {'project_id': project.id})">
+                            <Link :href="route('projectDashboard', {'project_id': project.id})">
                             {{table.table_name}}
                             </Link>
                         </td>

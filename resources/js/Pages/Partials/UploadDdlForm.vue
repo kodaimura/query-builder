@@ -16,7 +16,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('post.uploadDdl', {'project_id': project.id}));
+    form.post(route('uploadDdl', {'project_id': project.id}));
 };
 </script>
 

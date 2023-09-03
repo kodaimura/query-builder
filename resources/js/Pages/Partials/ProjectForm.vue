@@ -10,7 +10,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('post.projects'));
+    form.post(route('projects.store'));
 };
 </script>
 

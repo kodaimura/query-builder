@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QbProjectController;
+use App\Http\Controllers\QbProjectDashboardController;
+use App\Http\Controllers\QbTableSchemaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,10 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    //Route::get('/projects', [QbProjectController::class, 'getProjects']);
-    Route::post('/projects', [QbProjectController::class, 'createProject'])->name('post.projects');
-    Route::get('/projects/{project_id}/home', [QbProjectController::class, 'projectHome'])->name('get.projectHome');
-    Route::post('/projects/{project_id}/ddl', [QbProjectController::class, 'uploadDdl'])->name('post.uploadDdl');
+    //Route::get('/projects', [QbProjectController::class, 'index']);
+    Route::get('/projects/create', [QbProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects', [QbProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/{project_id}', [QbProjectDashboardController::class, 'show'])->name('projectDashboard');
+    Route::post('/projects/{project_id}/ddl', [QbTableSchemaController::class, 'uploadDdl'])->name('uploadDdl');
 });
 
 Route::middleware('auth')->group(function () {
