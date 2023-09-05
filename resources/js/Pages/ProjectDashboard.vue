@@ -3,6 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UploadDdlForm from './Partials/UploadDdlForm.vue';
 import TableForm from './Partials/TableForm.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import ColumnList from './Partials/ColumnList.vue';
 
 defineProps({
     project: {
@@ -12,6 +14,12 @@ defineProps({
         type: Array,
     },
 });
+
+const table = ref(null);
+
+const selectTable = (tableObj) => {
+    table.value = tableObj;
+}
 </script>
 
 <template>
@@ -34,15 +42,15 @@ defineProps({
                         <table v-for="table in tables">
                         <tr>
                         <td>
-                            <Link :href="route('projectDashboard', {'project_id': project.id})">
+                            <button @click="selectTable(table)">
                             {{table.table_name}}
-                            </Link>
+                            </button>
                         </td>
                         </tr>
                     </table>
                     </div>
+                    <ColumnList :table=table />
                 </div>
-
             </div>      
         </div>
     </AuthenticatedLayout>

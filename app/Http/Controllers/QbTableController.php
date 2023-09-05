@@ -17,6 +17,7 @@ class QbTableController extends Controller
         return Inertia::render('CreateTable');
     }
     */
+    
     public function store(Request $request, $project_id): RedirectResponse
     {
         $table_name = $request->table_name;
