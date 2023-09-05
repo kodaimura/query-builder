@@ -37,19 +37,30 @@ const selectTable = (tableObj) => {
                     <TableForm class="max-w-xl" :project=project />
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <table v-for="table in tables">
-                        <tr>
-                        <td>
-                            <button @click="selectTable(table)">
-                            {{table.table_name}}
-                            </button>
-                        </td>
-                        </tr>
-                    </table>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="height: 700px;">
+                    <div class="p-5 text-gray-900 flex h-full w-full">
+                        <div class="h-full overflow-scroll w-1/2">
+                            <table class="divide-y divide-gray-200 w-full">
+                            <tbody v-for="table in tables">
+                                <tr>
+                                    <td class="pl-2 py-1">
+                                        <button @click="selectTable(table)" class="hover:text-blue-500 text-blue-700">
+                                            {{table.table_name}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        <div class="h-full w-full overflow-scroll bg-slate-50">
+                            <span v-if="table" class="font-bold text-2xl pl-5">
+                                {{table.table_name}}
+                            </span>
+                            <div class="pl-10">
+                                <ColumnList :table=table />
+                            </div>
+                        </div>
                     </div>
-                    <ColumnList :table=table />
                 </div>
             </div>      
         </div>
