@@ -1,31 +1,42 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 import ColumnList from './ColumnList.vue';
+import { onMounted } from 'vue';
 
-const {project} = defineProps({
+const { project } = defineProps({
     project: {
         type: Object,
     },
-    tables: {
-        type: Array,
-    },
 });
 
+const tables = ref([]);
 const table = ref(null);
+const table_name = ref(null);
+
+onMounted(() => {
+    axios.get(`/api/projects/${project.id}/tables`)
+    .then((response) => {
+        tables.value = response.data;
+    })
+    .catch(console.error);
+});
 
 const selectTable = (tableObj) => {
     table.value = tableObj;
 }
 
-const form = useForm({
-    table_name: '',
-});
-
 const submit = () => {
-    form.post(route('tables.store', {'project_id': project.id}));
+    axios.post(`/api/projects/${project.id}/tables`, {
+        table_name: table_name.value,
+    })
+    .then(response => {
+        tables.value = response.data;
+        table_name.value = null;
+    })
+    .catch(console.error);
 };
 </script>
 
@@ -33,18 +44,16 @@ const submit = () => {
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="height: 700px;">
         <div class="p-5 text-gray-900 flex h-full w-full">
             <div class="h-full overflow-scroll w-1/2 mr-3">
-                <form class="mt-6">
-                    <InputLabel for="table_name" value="新規テーブル名" />
-                    <TextInput
-                        id="table_name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.table_name"
-                        required
-                        autofocus
-                        @keypress.enter="submit"
-                    />
-                </form>
+                <InputLabel for="table_name" value="新規テーブル名" />
+                <TextInput
+                    id="table_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="table_name"
+                    required
+                    autofocus
+                    @keypress.enter="submit"
+                />
 
                 <table class="divide-y divide-gray-200 w-full">
                 <tbody v-for="table in tables">

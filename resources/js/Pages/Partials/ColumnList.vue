@@ -38,7 +38,7 @@ const submit = () => {
 <template>
     <section class="space-y-6">
         <div>
-            <InputLabel for="column_name" value="新規テーブル名" />
+            <InputLabel for="column_name" value="新規カラム名" />
             <TextInput
                 id="column_name"
                 type="text"

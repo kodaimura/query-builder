@@ -2,16 +2,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UploadDdlForm from './Partials/UploadDdlForm.vue';
 import TableColumnRegister from './Partials/TableColumnRegister.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import ColumnList from './Partials/ColumnList.vue';
+import { Head } from '@inertiajs/vue3';
 
 defineProps({
     project: {
         type: Object,
-    },
-    tables: {
-        type: Array,
     },
 });
 </script>
@@ -30,7 +25,7 @@ defineProps({
                     <UploadDdlForm class="max-w-xl" :project=project />
                 </div>
 
-                <TableColumnRegister :project=project :tables=tables />
+                <TableColumnRegister :project=project />
             </div>      
         </div>
     </AuthenticatedLayout>

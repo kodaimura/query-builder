@@ -5,8 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QbProjectController;
 use App\Http\Controllers\QbProjectDashboardController;
 use App\Http\Controllers\QbTableSchemaController;
-use App\Http\Controllers\QbTableController;
-use App\Http\Controllers\QbColumnController;
+use App\Http\Controllers\QbTableApiController;
+use App\Http\Controllers\QbColumnApiController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,12 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/projects', [QbProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project_id}', [QbProjectDashboardController::class, 'show'])->name('projectDashboard');
     Route::post('/projects/{project_id}/ddl', [QbTableSchemaController::class, 'uploadDdl'])->name('uploadDdl');
-    //Route::get('/projects/{project_id}/tables/create', [QbTableController::class, 'create'])->name('tables.create');
-    Route::post('/projects/{project_id}/tables', [QbTableController::class, 'store'])->name('tables.store');
-    Route::get('/projects/{project_id}/tables/{table_id}', [QbTableController::class, 'create'])->name('tables.create');
 
-    Route::get('/api/tables/{table_id}/columns', [QbColumnController::class, 'getColumns']);
-    Route::post('/api/tables/{table_id}/columns', [QbColumnController::class, 'createColumn']);
+    Route::get('/api/projects/{project_id}/tables', [QbTableApiController::class, 'getTables']);
+    Route::post('/api/projects/{project_id}/tables', [QbTableApiController::class, 'createTable']);
+    Route::get('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'getColumns']);
+    Route::post('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'createColumn']);
 });
 
 Route::middleware('auth')->group(function () {

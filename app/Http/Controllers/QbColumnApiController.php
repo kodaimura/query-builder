@@ -6,7 +6,7 @@ use App\Models\QbColumn;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class QbColumnController extends Controller
+class QbColumnApiController extends Controller
 {
     public function getColumns(Request $request, $table_id): JsonResponse
     {
