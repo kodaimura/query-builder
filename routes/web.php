@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/{project_id}/tables/{table_id}', [QbTableController::class, 'create'])->name('tables.create');
 
     Route::get('/api/tables/{table_id}/columns', [QbColumnController::class, 'getColumns']);
+    Route::post('/api/tables/{table_id}/columns', [QbColumnController::class, 'createColumn']);
 });
 
 Route::middleware('auth')->group(function () {
