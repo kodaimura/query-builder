@@ -10,7 +10,9 @@ const props = defineProps({
 });
 
 const columns = ref([]);
+const column = ref(null);
 const column_name = ref(null);
+const column_name_put = ref(null);
 
 watch(
     () => props.table,
@@ -22,6 +24,17 @@ watch(
         .catch(console.error);
     }
 );
+
+const selectColumn = (columnObj) => {
+    column.value = columnObj;
+    column_name_put.value = columnObj.column_name
+}
+
+const isSelected = (columnObj) => {
+    return column.value != null && 
+    columnObj != null && 
+    column.value.id == columnObj.id;
+}
 
 const postColumn = () => {
     axios.post(`/api/tables/${props.table.id}/columns`, {
@@ -39,6 +52,18 @@ const deleteColumn = (columnObj) => {
     .then(response => {
         columns.value = response.data;
         column_name.value = null;
+    })
+    .catch(console.error);
+};
+
+const putColumn = () => {
+    axios.put(`/api/tables/${props.table.id}/columns/${column.value.id}`, {
+        column_name: column_name_put.value,
+    })
+    .then(response => {
+        columns.value = response.data;
+        column_name_put.value = null;
+        column.value = null;
     })
     .catch(console.error);
 };
@@ -60,7 +85,23 @@ const deleteColumn = (columnObj) => {
             <table class="divide-y divide-gray-200 w-full">
                 <tbody v-for="column in columns">
                     <tr>
-                        <td>{{column.column_name}}</td>
+                        <td v-if="isSelected(column)">
+                            <TextInput
+                                id="column_name_put"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="column_name_put"
+                                required
+                                autofocus
+                                @keypress.enter="putColumn"
+                            />
+                        </td>
+                        <td v-else>{{column.column_name}}</td>
+                        <td>
+                            <button @click="selectColumn(column)">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                        </td>
                         <td>
                             <button @click="deleteColumn(column)">
                                 <span class="material-symbols-outlined">delete</span>

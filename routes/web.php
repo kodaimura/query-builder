@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/api/projects/{project_id}/tables/{table_id}', [QbTableApiController::class, 'deleteTable']);
     Route::get('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'getColumns']);
     Route::post('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'createColumn']);
+    Route::put('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'updateColumn']);
     Route::delete('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'deleteColumn']);
 });
 

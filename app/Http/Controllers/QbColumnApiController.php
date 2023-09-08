@@ -37,4 +37,18 @@ class QbColumnApiController extends Controller
                     ->get();
         return response()->json($columns);
     }
+
+    public function updateColumn(Request $request, $table_id, $column_id): JsonResponse
+    {
+        $column_name = $request->column_name;
+
+        QbColumn::where('id', $column_id)->update([
+            'table_id' => $table_id,
+            'column_name' => $column_name,
+        ]);
+
+        $columns = QbColumn::where('table_id', $table_id)
+                    ->get();
+        return response()->json($columns);
+    }
 }
