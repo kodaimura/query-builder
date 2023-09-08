@@ -65,8 +65,8 @@ const deleteTable = (tableObj) => {
                 />
 
                 <table class="divide-y divide-gray-200 w-full">
-                <tbody v-for="table in tables">
-                    <tr>
+                <tbody>
+                    <tr v-for="table in tables">
                         <td class="pl-2 py-1">
                             <button @click="selectTable(table)" class="hover:text-blue-500 text-blue-700">
                                 {{table.table_name}}

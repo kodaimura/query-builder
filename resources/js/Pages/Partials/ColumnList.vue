@@ -83,8 +83,8 @@ const putColumn = () => {
                 @keypress.enter="postColumn"
             />
             <table class="divide-y divide-gray-200 w-full">
-                <tbody v-for="column in columns">
-                    <tr>
+                <tbody>
+                    <tr v-for="column in columns">
                         <td v-if="isSelected(column)">
                             <TextInput
                                 id="column_name_put"
