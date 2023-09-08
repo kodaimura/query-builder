@@ -25,8 +25,8 @@ defineProps({
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                    <table v-for="project in projects">
-                        <tr>
+                    <table>
+                        <tr v-for="project in projects">
                         <td>{{project.id}}</td>
                         <td>
                             <Link :href="route('projectDashboard', {'project_id': project.id})">
