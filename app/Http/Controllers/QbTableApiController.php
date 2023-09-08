@@ -38,4 +38,18 @@ class QbTableApiController extends Controller
                     ->get();
         return response()->json($tables);
     }
+
+    public function updatetable(Request $request, $project_id, $table_id): JsonResponse
+    {
+        $table_name = $request->table_name;
+
+        QbTable::where('id', $table_id)->update([
+            'project_id' => $project_id,
+            'table_name' => $table_name,
+        ]);
+
+        $tables = QbTable::where('project_id', $project_id)
+                    ->get();
+        return response()->json($tables);
+    }
 }

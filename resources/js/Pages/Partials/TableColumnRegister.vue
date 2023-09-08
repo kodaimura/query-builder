@@ -15,6 +15,8 @@ const { project } = defineProps({
 const tables = ref([]);
 const table = ref(null);
 const table_name = ref(null);
+const isEdit = ref(false);
+const table_name_put = ref(null);
 
 onMounted(() => {
     axios.get(`/api/projects/${project.id}/tables`)
@@ -26,6 +28,17 @@ onMounted(() => {
 
 const selectTable = (tableObj) => {
     table.value = tableObj;
+}
+
+const switchEditMode = () => {
+    isEdit.value = !isEdit.value;
+    if (isEdit.value) {
+        table_name_put.value = table.value.table_name;
+    }
+}
+
+const isEditMode = () => {
+    return isEdit.value;
 }
 
 const postTable = () => {
@@ -44,6 +57,20 @@ const deleteTable = (tableObj) => {
     .then(response => {
         tables.value = response.data;
         table_name.value = null;
+        switchEditMode();
+    })
+    .catch(console.error);
+};
+
+const putTable = () => {
+    axios.put(`/api/projects/${project.id}/tables/${table.value.id}`, {
+        table_name: table_name_put.value,
+    })
+    .then(response => {
+        tables.value = response.data;
+        table.value.table_name = table_name_put.value;
+        table_name_put.value = null;
+        switchEditMode();
     })
     .catch(console.error);
 };
@@ -82,13 +109,25 @@ const deleteTable = (tableObj) => {
                 </table>
             </div>
             <div class="h-full w-full overflow-scroll bg-slate-50">
-                <div class="flex justify-between">
-                    <span v-if="table" class="font-bold text-2xl pl-4 py-1">
+                <div v-if="table" class="flex justify-between">
+                    <span v-if="isEditMode()" class="font-bold text-2xl pl-4 py-1">
+                        <TextInput
+                            id="table_name_put"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="table_name_put"
+                            required
+                            autofocus
+                            @keypress.enter="putTable"
+                        />
+                    </span>
+                    
+                    <span v-else class="font-bold text-2xl pl-4 py-1">
                     {{table.table_name}}
                     </span>
-                    <Link class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        編集
-                    </Link>
+                    <button @click="switchEditMode">
+                        <span class="material-symbols-outlined">edit</span>
+                    </button>
                 </div>
                 <div class="px-8">
                     <ColumnList :table=table />
