@@ -26,8 +26,13 @@ watch(
 );
 
 const selectColumn = (columnObj) => {
-    column.value = columnObj;
-    column_name_put.value = columnObj.column_name
+    if (column.value != null && columnObj.id == column.value.id) {
+        column.value = null;
+        column_name_put.value = null;
+    } else {
+        column.value = columnObj;
+        column_name_put.value = columnObj.column_name
+    }
 }
 
 const isSelected = (columnObj) => {
