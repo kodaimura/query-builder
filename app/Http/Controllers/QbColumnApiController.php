@@ -28,4 +28,13 @@ class QbColumnApiController extends Controller
                     ->get();
         return response()->json($columns);
     }
+
+    public function deleteColumn(Request $request, $table_id, $column_id): JsonResponse
+    {
+        QbColumn::where('id', $column_id)->delete();
+
+        $columns = QbColumn::where('table_id', $table_id)
+                    ->get();
+        return response()->json($columns);
+    }
 }

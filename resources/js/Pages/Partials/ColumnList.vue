@@ -23,10 +23,19 @@ watch(
     }
 );
 
-const submit = () => {
+const postColumn = () => {
     axios.post(`/api/tables/${props.table.id}/columns`, {
         column_name: column_name.value,
     })
+    .then(response => {
+        columns.value = response.data;
+        column_name.value = null;
+    })
+    .catch(console.error);
+};
+
+const deleteColumn = (columnObj) => {
+    axios.delete(`/api/tables/${props.table.id}/columns/${columnObj.id}`)
     .then(response => {
         columns.value = response.data;
         column_name.value = null;
@@ -46,12 +55,19 @@ const submit = () => {
                 v-model="column_name"
                 required
                 autofocus
-                @keypress.enter="submit"
+                @keypress.enter="postColumn"
             />
-            <table v-for="column in columns">
-                <tr>
-                    <td>{{column.column_name}}</td>
-                </tr>
+            <table class="divide-y divide-gray-200 w-full">
+                <tbody v-for="column in columns">
+                    <tr>
+                        <td>{{column.column_name}}</td>
+                        <td>
+                            <button @click="deleteColumn(column)">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </section>
