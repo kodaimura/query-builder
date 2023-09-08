@@ -28,10 +28,19 @@ const selectTable = (tableObj) => {
     table.value = tableObj;
 }
 
-const submit = () => {
+const postTable = () => {
     axios.post(`/api/projects/${project.id}/tables`, {
         table_name: table_name.value,
     })
+    .then(response => {
+        tables.value = response.data;
+        table_name.value = null;
+    })
+    .catch(console.error);
+};
+
+const deleteTable = (tableObj) => {
+    axios.delete(`/api/projects/${project.id}/tables/${tableObj.id}`)
     .then(response => {
         tables.value = response.data;
         table_name.value = null;
@@ -52,7 +61,7 @@ const submit = () => {
                     v-model="table_name"
                     required
                     autofocus
-                    @keypress.enter="submit"
+                    @keypress.enter="postTable"
                 />
 
                 <table class="divide-y divide-gray-200 w-full">
@@ -61,6 +70,11 @@ const submit = () => {
                         <td class="pl-2 py-1">
                             <button @click="selectTable(table)" class="hover:text-blue-500 text-blue-700">
                                 {{table.table_name}}
+                            </button>
+                        </td>
+                        <td class="pl-2 py-1">
+                            <button @click="deleteTable(table)">
+                                <span class="material-symbols-outlined">delete</span>
                             </button>
                         </td>
                     </tr>
@@ -76,7 +90,7 @@ const submit = () => {
                         編集
                     </Link>
                 </div>
-                <div class="pl-10">
+                <div class="px-8">
                     <ColumnList :table=table />
                 </div>
             </div>
