@@ -114,7 +114,7 @@ const postDdl = () => {
         <template #header>
             <div class="flex flex-row space-x-10">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{project.project_name}}</h2>
-                <Link>クエリビルド</Link>
+                <Link :href="route('queryBuild', {'project_id': project.id})">クエリビルド</Link>
             </div>
         </template>
 

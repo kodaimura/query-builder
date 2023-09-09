@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QbProjectController;
 use App\Http\Controllers\QbProjectDashboardController;
-use App\Http\Controllers\QbTableSchemaController;
+use App\Http\Controllers\QbQueryBuildController;
 use App\Http\Controllers\QbTableApiController;
 use App\Http\Controllers\QbColumnApiController;
 use Illuminate\Foundation\Application;
@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/create', [QbProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [QbProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project_id}', [QbProjectDashboardController::class, 'show'])->name('projectDashboard');
+    Route::get('/projects/{project_id}/querybuild', [QbQueryBuildController::class, 'show'])->name('queryBuild');
 
     Route::get('/api/projects/{project_id}/tables', [QbTableApiController::class, 'getTables']);
     Route::post('/api/projects/{project_id}/tables', [QbTableApiController::class, 'createTable']);
