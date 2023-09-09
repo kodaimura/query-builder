@@ -35,6 +35,7 @@ class QbTableApiController extends Controller
     public function deleteTable(Request $request, $project_id, $table_id): JsonResponse
     {
         QbTable::where('id', $table_id)->delete();
+        QbColumn::where('table_id', $table_id)->delete();
 
         $tables = QbTable::where('project_id', $project_id)
                     ->get();
