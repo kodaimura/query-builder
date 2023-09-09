@@ -40,17 +40,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/create', [QbProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [QbProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project_id}', [QbProjectDashboardController::class, 'show'])->name('projectDashboard');
-    Route::post('/projects/{project_id}/ddl', [QbTableSchemaController::class, 'uploadDdl'])->name('uploadDdl');
 
     Route::get('/api/projects/{project_id}/tables', [QbTableApiController::class, 'getTables']);
     Route::post('/api/projects/{project_id}/tables', [QbTableApiController::class, 'createTable']);
     Route::put('/api/projects/{project_id}/tables/{table_id}', [QbTableApiController::class, 'updateTable']);
     Route::delete('/api/projects/{project_id}/tables/{table_id}', [QbTableApiController::class, 'deleteTable']);
+    Route::post('/api/projects/{project_id}/ddl', [QbTableApiController::class, 'uploadDdl']);
     Route::get('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'getColumns']);
     Route::post('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'createColumn']);
     Route::put('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'updateColumn']);
     Route::delete('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'deleteColumn']);
-    Route::post('/api/projects/{project_id}/ddl', [QbTableApiController::class, 'uploadDdl'])->name('uploadDdl');
 });
 
 Route::middleware('auth')->group(function () {
