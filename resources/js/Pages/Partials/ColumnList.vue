@@ -81,18 +81,21 @@ const putColumn = () => {
 <template>
     <section class="space-y-6">
         <div>
-            <InputLabel for="column_name" value="新規カラム名" />
-            <TextInput
-                id="column_name"
-                type="text"
-                class="mt-1 block w-full"
-                v-model="column_name"
-                required
-                autofocus
-                @keypress.enter="postColumn"
-            />
-            <table class="divide-y divide-gray-200 w-full">
-                <tbody>
+            <div v-if="props.table">
+                <InputLabel for="column_name" value="新規カラム名" />
+                <TextInput
+                
+                    id="column_name"
+                    type="text"
+                    class="my-2 block"
+                    v-model="column_name"
+                    required
+                    autofocus
+                    @keypress.enter="postColumn"
+                />
+            </div>
+            <table class="w-full">
+                <tbody class="divide-y divide-gray-200 w-full">
                     <tr v-for="column in columns">
                         <td v-if="isSelected(column)">
                             <TextInput
