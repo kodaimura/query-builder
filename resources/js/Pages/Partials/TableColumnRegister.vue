@@ -67,8 +67,9 @@ const deleteTable = (tableObj) => {
     axios.delete(`/api/projects/${project.id}/tables/${tableObj.id}`)
     .then(response => {
         tables.value = response.data;
-        table_name.value = null;
-        switchEditMode();
+        if (table.value != null && tableObj.id == table.value.id) {
+            table.value = null;
+        }
     })
     .catch(console.error);
 };

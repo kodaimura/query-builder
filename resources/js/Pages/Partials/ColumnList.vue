@@ -17,11 +17,15 @@ const column_name_put = ref(null);
 watch(
     () => props.table,
     (newTable, oldTable) => {
-        axios.get(`/api/tables/${newTable.id}/columns`)
-        .then((response) => {
-            columns.value = response.data;
-         })
-        .catch(console.error);
+        if (newTable == null) {
+            columns.value = null
+        } else {
+            axios.get(`/api/tables/${newTable.id}/columns`)
+            .then((response) => {
+                columns.value = response.data;
+            })
+            .catch(console.error);
+        }
     }
 );
 
