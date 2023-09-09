@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/tables/{table_id}/columns', [QbColumnApiController::class, 'createColumn']);
     Route::put('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'updateColumn']);
     Route::delete('/api/tables/{table_id}/columns/{column_id}', [QbColumnApiController::class, 'deleteColumn']);
+    Route::post('/api/projects/{project_id}/ddl', [QbTableApiController::class, 'uploadDdl'])->name('uploadDdl');
 });
 
 Route::middleware('auth')->group(function () {

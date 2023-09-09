@@ -1,10 +1,11 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Link } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import Modal from '@/Components/Modal.vue';
+import { ref, onMounted } from 'vue';
 import ColumnList from './ColumnList.vue';
-import { onMounted } from 'vue';
 
 const { project } = defineProps({
     project: {
@@ -12,11 +13,21 @@ const { project } = defineProps({
     },
 });
 
+const upload_file = ref(null); 
 const tables = ref([]);
 const table = ref(null);
 const table_name = ref(null);
 const isEdit = ref(false);
 const table_name_put = ref(null);
+const isShowModal = ref(false);
+
+const closeModal = () => {
+    isShowModal.value = false;
+};
+
+const showModal = () => {
+    isShowModal.value = true;
+};
 
 onMounted(() => {
     axios.get(`/api/projects/${project.id}/tables`)
@@ -74,10 +85,55 @@ const putTable = () => {
     })
     .catch(console.error);
 };
+
+const postDdl = () => {
+    const file = upload_file.value;
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    axios.post(`/api/projects/${project.id}/ddl`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(response => {
+        tables.value = response.data;
+        upload_file.value = null;
+        closeModal();
+    })
+    .catch(console.error);
+};
 </script>
 
 <template>
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="height: 700px;">
+        <button @click="showModal">DDlアップロード</button>
+        <Modal :show="isShowModal" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900">
+                    DDLアップロード
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600">
+                    テーブル・カラムをまとめて登録します
+                </p>
+
+                <div class="mt-6">
+                    <TextInput
+                        id="ddlfile" 
+                        type="file" 
+                        @input="upload_file = $event.target.files[0]"
+                        required />
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeModal"> キャンセル </SecondaryButton>
+
+                    <PrimaryButton v-if="upload_file" @click="postDdl"> アップロード </PrimaryButton>
+                    <PrimaryButton v-else @click="postDdl" disabled> アップロード </PrimaryButton>
+                </div>
+            </div>
+        </Modal>
+
         <div class="p-5 text-gray-900 flex h-full w-full">
             <div class="h-full overflow-scroll w-1/2 mr-3">
                 <InputLabel for="table_name" value="新規テーブル名" />
@@ -108,6 +164,7 @@ const putTable = () => {
                 </tbody>
                 </table>
             </div>
+
             <div class="h-full w-full overflow-scroll bg-slate-50">
                 <div v-if="table" class="flex justify-between">
                     <span v-if="isEditMode()" class="font-bold text-2xl pl-4 py-1">
